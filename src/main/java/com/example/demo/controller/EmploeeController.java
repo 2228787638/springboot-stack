@@ -29,10 +29,11 @@ public class EmploeeController {
     }
     @GetMapping(value="/employees",params ={"page","pageSize"})
     @ResponseBody
-    public List<Employee> getEmployeesByPageAndPageSize(@RequestParam String page, @RequestParam String pageSize){
+    public List<Employee> getEmployeesByPageAndPageSize(@RequestParam int page, @RequestParam int pageSize){
         return employeeDataList.getEmployees().stream()
-                .sorted().skip(Integer.parseInt(page)* Integer.parseInt(pageSize))
-                .limit(Integer.parseInt(pageSize)).collect(Collectors.toList());
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .collect(Collectors.toList());
 
     }
     @GetMapping(value="/employees",params ="gender")

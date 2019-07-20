@@ -40,6 +40,11 @@ public class EmploeeControllerTest {
 
     @Test
     public void getEmployeesByPageAndPageSize() throws Exception {
+        mockMvc.perform(get("/employees?page=1&pageSize=1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("zhangsan"))
+                .andExpect(jsonPath("$.length()").value(1));
     }
 
     @Test
