@@ -38,10 +38,10 @@ public class EmploeeController {
     }
     @GetMapping(value="/employees",params ="gender")
     @ResponseBody
-    public Employee getEmployeesByGender(@RequestParam String gender){
+    public List<Employee> getEmployeesByGender(@RequestParam String gender){
         return employeeDataList.getEmployees().stream()
                 .filter(item->item.getGender().equals(gender))
-                .findFirst().get();
+                .collect(Collectors.toList());
     }
     @PostMapping("/employees")
     @ResponseBody

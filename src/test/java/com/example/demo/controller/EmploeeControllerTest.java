@@ -49,6 +49,11 @@ public class EmploeeControllerTest {
 
     @Test
     public void getEmployeesByGender() throws Exception {
+        mockMvc.perform(get("/employees?gender=male"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("zhangsan"))
+                .andExpect(jsonPath("$[1].name").value("lisi"));
     }
 
     @Test
