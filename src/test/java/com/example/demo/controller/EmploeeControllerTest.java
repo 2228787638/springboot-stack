@@ -31,6 +31,11 @@ public class EmploeeControllerTest {
 
     @Test
     public void getEmploeesById() throws Exception {
+        mockMvc.perform(get("/employees/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("zhangsan"));
+
     }
 
     @Test
