@@ -18,6 +18,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -29,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CompanyControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
 
     @Test
     public void should_return_all_companies_by_getCompanies() throws Exception {
@@ -45,9 +45,7 @@ public class CompanyControllerTest {
         mockMvc.perform(get("/companies/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"id\":1,\"companyName\":\"tencent\",\"employeeNumber\":1," +
-                        "\"employees\":[{\"id\":1,\"name\":\"zhangsan\",\"age\":18,\"gender\":\"male\"," +
-                        "\"salary\":8000.0}]}"));
+                .andExpect(jsonPath("$.companyName").value("tencent"));
     }
 
     @Test
@@ -65,8 +63,8 @@ public class CompanyControllerTest {
         mockMvc.perform(get("/companies?page=1&pageSize=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":1,\"companyName\":\"tencent\",\"employeeNumber\":1," +
-                        "\"employees\":[{\"id\":1,\"name\":\"zhangsan\",\"age\":18,\"gender\":\"male\",\"salary\":8000.0}]}]"));
+                .andExpect(jsonPath("$[0].companyName").value("tencent"))
+                .andExpect(jsonPath("$.length()").value(1));
     }
 
     @Test
@@ -85,15 +83,16 @@ public class CompanyControllerTest {
 
     @Test
     public void updateCompany() throws Exception {
-        mockMvc.perform(post("/companies").contentType(MediaType.APPLICATION_JSON)
+
+        mockMvc.perform(put("/companies/1").contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "        \"companyName\":\"baidu\",\n" +
-                        "        \"employeeNumber\":1,\n" +
+                        "        \"companyName\":\"tencent\",\n" +
+                        "        \"employeeNumber\":2,\n" +
                         "        \"employees\":null\n" +
                         "    }"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.companyName").value("baidu"));
+                .andExpect(jsonPath("$.employeeNumber").value(2));
     }
 
     @Test
