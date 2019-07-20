@@ -10,8 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -74,11 +73,24 @@ public class EmploeeControllerTest {
 
     @Test
     public void updateEmployees() throws Exception {
-        
+        mockMvc.perform(put("/employees/1").contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "        \"name\":\"zhangsan\",\n" +
+                        "        \"age\":56,\n" +
+                        "        \"gender\":\"female\",\n" +
+                        "        \"salary\":9000\n" +
+                        "    }"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.age").value(56));
     }
 
     @Test
     public void deleteEmployees() throws Exception {
+        mockMvc.perform(delete("/employees/3"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("mayun"));
     }
 
 }
