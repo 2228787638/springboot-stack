@@ -5,11 +5,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,10 +60,21 @@ public class EmploeeControllerTest {
 
     @Test
     public void addEmployees() throws Exception {
+        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "        \"name\":\"mayun\",\n" +
+                        "        \"age\":52,\n" +
+                        "        \"gender\":\"female\",\n" +
+                        "        \"salary\":9000\n" +
+                        "    }"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("mayun"));
     }
 
     @Test
     public void updateEmployees() throws Exception {
+        
     }
 
     @Test

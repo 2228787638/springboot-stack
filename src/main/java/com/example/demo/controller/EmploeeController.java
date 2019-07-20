@@ -46,6 +46,7 @@ public class EmploeeController {
     @PostMapping("/employees")
     @ResponseBody
     public Employee addEmployees(@RequestBody Employee employee){
+        employee.setId(3);
         employeeDataList.getEmployees().add(employee);
         return employee;
     }
