@@ -2,6 +2,7 @@ package com.example.demo.datasourse;
 
 import com.example.demo.entity.Company;
 import com.example.demo.entity.Employee;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * @author yif
  */
+@Component
 public class CompanyDataList {
     private List<Company> companyList;
 

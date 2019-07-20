@@ -12,11 +12,18 @@ public class Company {
     private int employeeNumber;
     private List<Employee> employees;
 
+    public Company(){}
     public Company(long id, String companyName, int employeeNumber, List<Employee> employees) {
         this.id=id;
         this.companyName=companyName;
         this.employeeNumber=employeeNumber;
         this.employees=employees;
+    }
+
+    public Company(String companyName, int employeeNumber, List<Employee> employees) {
+        this.companyName = companyName;
+        this.employeeNumber = employeeNumber;
+        this.employees = employees;
     }
 
     public long getId() {

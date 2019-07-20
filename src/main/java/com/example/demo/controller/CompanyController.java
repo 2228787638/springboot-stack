@@ -15,11 +15,11 @@ import java.util.stream.IntStream;
  */
 @RestController
 public class CompanyController {
-    private CompanyDataList companyDataList = new CompanyDataList();
+    @Autowired
+    private CompanyDataList companyDataList;
     @GetMapping("/companies")
     @ResponseBody
     public List<Company> getCompanies(){
-        //System.out.println(companyDataList.getCompanyList().get(0).getCompanyName());
         return companyDataList.getCompanyList();
     }
     @GetMapping("/companies/{companyId}")
@@ -41,8 +41,9 @@ public class CompanyController {
     @ResponseBody
     public List<Company> getCompaniesByPageAndPageSize(@RequestParam int page,@RequestParam int pageSize){
         return companyDataList.getCompanyList().stream()
-                .filter(x->x.getId()>(page-1)*pageSize&&
-                        x.getId()<=page*pageSize).collect(Collectors.toList());
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .collect(Collectors.toList());
     }
     @PostMapping("/companies")
     @ResponseBody
